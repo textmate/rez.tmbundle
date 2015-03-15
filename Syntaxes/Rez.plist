@@ -7,6 +7,7 @@
 	<key>fileTypes</key>
 	<array>
 		<string>r</string>
+		<string>rez</string>
 	</array>
 	<key>keyEquivalent</key>
 	<string>^~R</string>
@@ -67,13 +68,13 @@
 			<key>comment</key>
 			<string>Note that Xcode gets case sensitivity wrong (last checked Xcode 2.0). I'm not sure built-in functions are case-insensitive, though, so we might too.</string>
 			<key>match</key>
-			<string>\b(?i:(change|data|delete|include|read|resource|type))\b</string>
+			<string>\b(?i:(change|data|delete|include|read|resource))\b</string>
 			<key>name</key>
 			<string>keyword.control.rez</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(?i:(align|array|binary|bit|bitstring|boolean|byte|case|char|cstring|decimal|enum|fill|hex|integer|key|literal|long|longint|nibble|octal|point|pstring|rect|string|switch|unsigned|wide|word|wstring))\b</string>
+			<string>\b(?i:(align|array|binary|bit|bitstring|boolean|byte|case|char|cstring|decimal|enum|fill|hex|integer|key|literal|long|longint|nibble|octal|optional|point|pstring|rect|reversebytes|string|switch|unsigned|wide|word|wstring))\b</string>
 			<key>name</key>
 			<string>storage.type.rez</string>
 		</dict>
@@ -93,15 +94,21 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\$\$)(?i:(ArrayIndex|Attributes|BitField|Byte|CountOf|Date|Day|Format|Hour|ID|Long|Minute|Month|Name|PackedSize|Read|Resource|ResourceSize|Second|Shell|Time|Type|Version|Weekday|Word|Year))</string>
+			<string>(\$\$)(?i:(ArrayIndex|Attributes|BitField|Byte|CountOf|Date|Day|Format|Hour|ID|Long|Minute|Month|Name|OptionalCount|PackedSize|Read|Resource|ResourceSize|Second|Shell|Time|Type|Version|Weekday|Word|Year))</string>
 			<key>name</key>
 			<string>support.function.built-in.rez</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(((0(x|X|B)|\$)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b</string>
+			<string>\b(((0(x|X|B))[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b</string>
 			<key>name</key>
 			<string>constant.numeric.rez</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>\$[0-9a-fA-F]+?\b</string>
+			<key>name</key>
+			<string>constant.numeric.hex.rez</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -211,9 +218,52 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>^\s*(#)\s*(define|defined|else|elif|endif|if|ifdef|ifndef|include|line|printf|undef)\b</string>
+			<string>^\s*(#)\s*(?i:(defined|else|elif|endif|if|ifdef|ifndef|include|line|printf|undef))\b</string>
 			<key>name</key>
 			<string>meta.preprocessor.rez</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.preprocessor.rez</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.import.rez</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.define.rez</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(#)\s*(?i:(define))\s+([_A-Za-z][_A-Za-z0-9]+)</string>
+			<key>name</key>
+			<string>meta.preprocessor.define.rez</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.rez</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.rez</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>\b(?i:(type|resource))\s+([_A-Za-z][_A-Za-z0-9]+|(0x|\$)[A-Fa-f0-9]+|[0-9]+|'[^']{1,4}')</string>
+			<key>name</key>
+			<string>meta.type.rez</string>
 		</dict>
 	</array>
 	<key>repository</key>
